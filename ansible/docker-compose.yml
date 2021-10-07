@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  ansible-executor: #Update Service Name
+    container_name: ansible-executor #Update Container Name
+    image: ansible:executor
+    volumes:
+      - ./playbooks:/playbooks
+    working_dir: /playbooks

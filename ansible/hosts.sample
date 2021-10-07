@@ -1,0 +1,4 @@
+aliasORhostname ansible_host=1.1.2.2 ansible_user=ANSIBLEUSER ansible_password=ANSIBLEUSERPASSWORD
+
+[all:vars]
+admin_users='["user1","user2"]'

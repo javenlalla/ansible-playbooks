@@ -1,0 +1,8 @@
+    - name: Update repository cache if older than 3600 seconds.
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install Fail2Ban service.
+      apt:
+        name: fail2ban
+        state: present

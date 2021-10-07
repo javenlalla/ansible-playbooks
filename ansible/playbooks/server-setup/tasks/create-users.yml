@@ -1,0 +1,20 @@
+    - name: Ensure `admin` group exists.
+      group:
+        name: admin
+        state: present
+    - name: Create target user with SSH key and `admin` group.
+      user:
+        name: "{{ item }}"
+        groups: admin
+        state: present
+      with_items: "{{ admin_users }}"
+    - name: Deploy authorized SSH key.
+      authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', 'users/' + item + '/key.pub') }}"
+        state: present
+      with_items: "{{ admin_users }}"
+    - name: Create `admin` group with sudo priveleges and disable password.
+      copy:
+        dest: "/etc/sudoers.d/admin"
+        content: "%admin ALL=(ALL) NOPASSWD: ALL"

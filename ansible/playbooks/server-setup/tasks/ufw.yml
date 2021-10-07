@@ -1,0 +1,17 @@
+    - name: Update repository cache if older than 3600 seconds.
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install UFW.
+      apt:
+        name: ufw
+        state: present
+    - name: Open SSH port.
+      ufw:
+        rule: allow
+        port: ssh
+        proto: tcp
+    - name: Enable UFW with logging.
+      ufw:
+        state: enabled
+        logging: 'on'

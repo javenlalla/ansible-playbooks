@@ -1,0 +1,3 @@
+ansible/hosts
+ansible/playbooks/server-setup/tasks/users/*
+!ansible/playbooks/server-setup/tasks/users/.gitkeep

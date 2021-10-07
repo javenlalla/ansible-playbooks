@@ -1,0 +1,39 @@
+    - name: Update repository cache if older than 3600 seconds.
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Upgrade installed packages.
+      apt:
+        upgrade: safe
+    - name: Upgrade OS.
+      apt:
+        upgrade: dist
+        update_cache: yes
+    - name: Remove packages no longer required.
+      apt:
+        autoclean: yes
+        autoremove: yes
+    - name: Install dependencies for unattended upgrades.
+      apt:
+        state: present
+        pkg:
+          - unattended-upgrades
+          - update-notifier-common
+    - name: Configure automatic upgrade options.
+      lineinfile:
+        dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+        regexp: '{{ item.regexp }}'
+        line: '{{ item.value }}'
+      with_items:
+        - { regexp: '^//Unattended-Upgrade::Automatic-Reboot ', value: 'Unattended-Upgrade::Automatic-Reboot "true";'}
+        - { regexp: '^//Unattended-Upgrade::Remove-Unused-Dependencies ', value: 'Unattended-Upgrade::Remove-Unused-Dependencies "true";'}
+    - name: Configure and enable automatic upgrades.
+      lineinfile:
+        dest: "/etc/apt/apt.conf.d/20auto-upgrades"
+        regexp: '{{ item.regexp }}'
+        line: '{{ item.value }}'
+        create: yes
+      with_items:
+        - { regexp: '^APT::Periodic::Update-Package-Lists ', value: 'APT::Periodic::Update-Package-Lists "1";'}
+        - { regexp: '^APT::Periodic::Unattended-Upgrade ', value: 'APT::Periodic::Unattended-Upgrade "1";'}
+    
