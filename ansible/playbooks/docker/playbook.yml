@@ -1,0 +1,17 @@
+---
+- name: Install Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: Update repository cache if older than 3600 seconds.
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Download the Docker convenience script.
+      get_url:
+        url: https://get.docker.com
+        dest: /home/pi/get-docker.sh
+        owner: pi
+        group: pi
+    - name: Execute the convenience script.
+      command: bash /home/pi/get-docker.sh
