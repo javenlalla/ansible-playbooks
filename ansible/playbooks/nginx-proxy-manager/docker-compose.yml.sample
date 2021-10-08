@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  proxy-manager:
+    container_name: proxy-manager
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      DB_MYSQL_HOST: "proxy-manager-db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "manager"
+      DB_MYSQL_PASSWORD: "UPDATE"
+      DB_MYSQL_NAME: "npm_db"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  proxy-manager-db:
+    container_name: proxy-manager-db
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'UPDATE'
+      MYSQL_DATABASE: 'npm_db'
+      MYSQL_USER: 'manager'
+      MYSQL_PASSWORD: 'UPDATE'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+networks:
+  default:
+    name: proxy-network

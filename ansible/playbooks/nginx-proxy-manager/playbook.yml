@@ -1,0 +1,17 @@
+---
+- name: Install Nginx Proxy Manager
+  hosts: all
+  become: true
+  tasks:
+    - name: Create directory to house Nginx Proxy Manager service.
+      file:
+        path: /home/pi/services/nginx-proxy-manager
+        state: directory
+    - name: Copy docker-compose.yml file to target node.
+      copy:
+        src: docker-compose.yml
+        dest: /home/pi/services/nginx-proxy-manager/docker-compose.yml
+    - name: Create Docker network proxy-network (Not best practice, should use docker_network module).
+      command: docker network create proxy-network
+    - name: Start the service (Not best practice, should use docker_compose module).
+      command: chdir=/home/pi/services/nginx-proxy-manager docker-compose up -d
