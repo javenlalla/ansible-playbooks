@@ -1,0 +1,15 @@
+---
+- name: Install Jellyfin
+  hosts: all
+  become: true
+  tasks:
+    - name: Create directory to house Jellyfin service.
+      file:
+        path: /home/pi/services/jellyfin
+        state: directory
+    - name: Copy docker-compose.yml file to target node.
+      copy:
+        src: docker-compose.yml
+        dest: /home/pi/services/jellyfin/docker-compose.yml
+    - name: Start the service (Not best practice, should use docker_compose module).
+      command: chdir=/home/pi/services/jellyfin docker-compose up -d

@@ -1,0 +1,29 @@
+---
+version: "3.9"
+
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - ./data/config:/config
+      - ./data/media/tvseries:/data/tvshows
+      - ./data/media/movies:/data/movies
+    ports:
+      - 8096:8096
+      - 8920:8920
+      - 7359:7359/udp
+      - 1900:1900/udp
+    devices:
+      - /dev/video10:/dev/video10
+      - /dev/video11:/dev/video11
+      - /dev/video12:/dev/video12
+    restart: unless-stopped
+
+networks:
+  default:
+    name: proxy-network

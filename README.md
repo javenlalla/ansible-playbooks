@@ -19,6 +19,12 @@ vi ansible/hosts
 docker build ansible -f=ansible/Dockerfile --tag=ansible:executor
 ```
 
+## Hook Into Container
+
+```bash
+docker exec -it ansible-executor bash
+```
+
 ## To Improve
 
 - Make username and group values dynamic using variables within the `docker` playbook
