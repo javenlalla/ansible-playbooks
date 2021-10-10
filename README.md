@@ -9,8 +9,8 @@ This repository can be used to establish an integration between Ansible and a ta
 ### Update `hosts` File
 
 ```bash
-cp hosts.sample hosts
-vi hosts
+cp ansible/hosts.sample ansible/hosts
+vi ansible/hosts
 ```
 
 ## Build Image
