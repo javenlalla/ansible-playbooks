@@ -1,0 +1,16 @@
+# Dockerfile provided by: https://mtabishk999.medium.com/how-to-enable-ssh-within-a-docker-container-511260a70cce
+
+FROM ubuntu
+
+RUN apt update && \
+    apt install -y openssh-server sudo
+
+RUN  echo 'root:password' | chpasswd
+
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+
+RUN service ssh start
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd","-D"]

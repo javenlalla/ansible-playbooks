@@ -1,9 +1,12 @@
 version: '3.9'
 
 services:
-  ansible-executor: #Update Service Name
-    container_name: ansible-executor #Update Container Name
+  ansible-executor:
+    container_name: ansible-executor
     image: ansible:executor
     volumes:
       - ./playbooks:/playbooks
+      - ./hosts:/etc/ansible/hosts
     working_dir: /playbooks
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING=False #Required to bypass Host Key checking error.
