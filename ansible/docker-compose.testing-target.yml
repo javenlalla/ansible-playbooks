@@ -4,6 +4,3 @@ services:
   testing-target:
     image: ansible-testing-target
     container_name: ansible-testing-target
-    volumes:
-      - ./shared:/shared
-    working_dir: /shared
